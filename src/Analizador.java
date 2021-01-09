@@ -1,0 +1,148 @@
+/**
+ *Analizador de cadenas
+ *@author Jorge Miguel Aaron Barrientos Alvarez. NC:421111666
+ *@version 1.0 Noviembre 2020
+ *@since Laboratorio de ICC 2021-1
+ */
+
+public class Analizador implements AnalizadorDeCadenas{
+    //Actividad 1
+    @Override
+    public int encuentraPosicion(String cadena, char c){
+	int n=cadena.length(), posicion=-1;
+	for(int i=0; i<n; i++){
+	    if(cadena.charAt(i)==c){
+	        posicion=i;
+		break;
+	    }
+	}
+   
+	return posicion;
+    }
+    
+    //Actividad 2
+    @Override
+    public boolean esNumero(String cadena){
+	boolean esNumero=true;
+	int n2=cadena.length(), puntos=0;
+       	
+	for(int i=0; i<n2; i++){
+	    int contador=0;
+	    if(cadena.charAt(i)=='.')
+		puntos++;
+	  
+	    else{ //Aquí se comparan los valores en código ascii de los caracteres de la cadena
+		for(int k=48; k<58; k++){ //Es por esto que el for comienza en 48 y va hasta 57.
+		    if((int)cadena.charAt(i)!=k) //En ascii: '0'=48, '1'=49, '2'=50, '3'=51, '4'=52, '5'=53, '6'=54, '7'=55, '8'=56, '9'=57
+			contador++;
+		    if(contador==10)
+			esNumero=false;
+		    
+		}
+	    }
+	}
+
+	if(puntos>1)
+	    esNumero=false;
+
+	return esNumero;
+    }
+
+    //Actividad 3
+    @Override
+    public String reemplazaCaracter(String cadena, char reemplazado, char reemplazador){
+	int n3=cadena.length();
+	char c;
+	String cadena2="";
+	for(int i=0; i<n3; i++){
+	    c=cadena.charAt(i);
+	    if(cadena.charAt(i)==reemplazado)
+		c=reemplazador;
+
+	    cadena2=cadena2+""+c;
+	        
+	}
+
+	return cadena2;
+    }
+    
+    //Actividad 4
+    @Override
+    public boolean esPalindromo(String cadena){
+	int n4=cadena.length(), contador=0, n4d;
+	boolean esPalindromo=false;
+	String cadena2="";
+	
+	for(int i=0; i<n4; i++){
+	    if(cadena.charAt(i)!=',' && cadena.charAt(i)!=' ')
+		cadena2+=cadena.charAt(i);
+	}
+	
+	cadena2=cadena2.toLowerCase();
+	n4d=cadena2.length();
+
+	for(int i=0; i<((n4d+1)/2); i++){
+	    if(cadena2.charAt(i)==cadena2.charAt(n4d-(i+1)))
+		contador++;
+	}
+
+	if(contador==((n4d+1)/2))
+	    esPalindromo=true;
+
+	return esPalindromo;
+	
+    }
+
+    //Actividad 5
+    @Override
+    public boolean contiene(String cadena, String buscada){
+	boolean contiene=false;
+	int n5=cadena.length(), n5d=buscada.length();
+      
+	for(int i=0; i<n5; i++){
+	    if(cadena.charAt(i)==buscada.charAt(0)){
+		if(i+n5d<=n5){
+		    String cadenaFinal=cadena.substring(i,(i+n5d));
+		    contiene=buscada.equals(cadenaFinal);
+		}
+	    }
+		
+	}
+
+	return contiene;
+    }
+     
+   
+    //Actividad 6
+    public static void main(String[] args){
+
+     	Analizador pruebas = new Analizador();
+	System.out.println("Actividad 1: encuentraPosicion");
+	System.out.println("\"Esta es una palabra de prueba\", 'u': "+pruebas.encuentraPosicion("Esta es una palabra de prueba", 'u'));
+	System.out.println("\"Esta es una palabra de prueba\", 'z': "+pruebas.encuentraPosicion("Esta es una palabra de prueba", 'z'));
+	System.out.println("\"Esta es una palabra de prueba\", 'e': "+pruebas.encuentraPosicion("Esta es una palabra de prueba", 'e'));
+	
+	System.out.println("\nActividad 2: esNumero");
+	System.out.println("12.44: "+pruebas.esNumero("12.44"));
+	System.out.println("12.44.3.2: "+pruebas.esNumero("12.44.3.2"));
+	System.out.println("12texto12: "+pruebas.esNumero("12texto12"));
+	
+	System.out.println("\nActividad 3: remplazaCaracter");
+	System.out.println("\"Palabra de prueba\", 'p', 'w': "+pruebas.reemplazaCaracter("Palabra de prueba", 'p', 'w'));
+	System.out.println("\"Palabra de prueba\", 'P', 'H': "+pruebas.reemplazaCaracter("Palabra de prueba", 'P', 'H'));
+	System.out.println("\"Palabra de prueba\", 'z', 'w': "+pruebas.reemplazaCaracter("Palabra de prueba", 'z', 'h'));
+	
+	System.out.println("\nActividad 4: esPalindromo");
+	System.out.println("Oso baboso: "+pruebas.esPalindromo("Oso baboso"));
+	System.out.println("Hola mundo: "+pruebas.esPalindromo("Hola mundo"));
+	System.out.println("\"  \": "+pruebas.esPalindromo(" "));
+	
+	System.out.println("\nActividad 5: contiene");
+	System.out.println("\"Hola mundo\", \"undo\": "+pruebas.contiene("Hola mundo", "undo"));
+	System.out.println("\"mundo\", \"Hola undo\": "+pruebas.contiene("mundo", "Hola mundo"));
+	System.out.println("\"Hola mundo\", \"oso\": "+pruebas.contiene("Hola mundo", "oso"));
+	
+
+    }
+
+}
